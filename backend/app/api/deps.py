@@ -1,3 +1,5 @@
-"""
-Shared dependency overrides for routers (database sessions, auth contexts, etc.).
-"""
+"""Shared dependency overrides for routers."""
+from app.core.database import get_db
+
+__all__ = ["get_db"]
+

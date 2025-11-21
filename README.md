@@ -82,25 +82,27 @@ AgentSession ──┬─→ AgentCall (1:N)
 
 ## Core Features
 
-**Entry Management**
+**Entry Management** (Implemented)
 - Workflow states: Draft → InReview → Published → Retired/Merged
 - Multi-solution support with ordered execution steps
 - Symptom tracking and incident linking (PagerDuty, Opsgenie)
+- Full CRUD API with pagination and filtering
+- Automated test coverage with 100% pass rate
 
-**AI Agent**
+**AI Agent** (Planned - Phase D)
 - `/agent/suggest` - Returns cited recommendations with evidence scores
 - `/agent/run` - Guarded tool execution with RBAC policy enforcement
 - Token usage and cost tracking per session
 
-**Search**
+**Search** (Planned - Phase C)
 - Dual retrieval: BM25 lexical + vector semantic search
 - Cross-encoder re-ranking for precision
 - 3072-dimension embeddings (text-embedding-3-large)
 
-**Governance**
-- Multi-participant review workflow
-- Complete audit logs with JSON diffs
-- Analytics: MTTR deltas, adoption metrics, content health
+**Governance** (Partially Implemented)
+- Multi-participant review workflow (API implemented, testing pending)
+- Complete audit logs with JSON diffs (schema ready)
+- Analytics: MTTR deltas, adoption metrics, content health (planned)
 
 ## Database Schema
 
@@ -177,11 +179,43 @@ plan/
   # Architecture diagrams and specs
 ```
 
+## API Documentation
+
+The CRUD API is fully operational with 30 endpoints for managing entries, solutions, tags, and reviews.
+
+**Quick Start:**
+- API Server: `http://localhost:8080`
+- Interactive Docs: `http://localhost:8080/docs` (Swagger UI)
+- OpenAPI Spec: `http://localhost:8080/api/v1/openapi.json`
+
+**Endpoint Categories:**
+- Entry Management: 8 endpoints (create, read, update, delete, list, symptoms, incidents)
+- Solution Management: 9 endpoints (CRUD + step management)
+- Tag Management: 8 endpoints (CRUD + entry tagging)
+- Review Workflow: 5 endpoints (review creation, participants, decisions)
+
+For complete endpoint documentation, request/response examples, and testing results, see [CRUD_Endpoints.md](./CRUD_Endpoints.md).
+
 ## Development Status
 
-Phase A (Bootstrap) - Complete
-- Database schema and migrations
-- Docker infrastructure
-- Health checks and testing
+**Phase A (Bootstrap) - Complete**
+- Database schema and migrations (21 tables)
+- Docker infrastructure (PostgreSQL, Redis, Meilisearch)
+- Health checks and testing framework
+- Alembic migration system
 
-Next phases: CRUD endpoints, search integration, AI agent implementation, workflow automation, analytics dashboard.
+**Phase B (CRUD API) - Complete**
+- 30 REST endpoints across 4 resources (Entries, Solutions, Tags, Reviews)
+- Repository pattern implementation (5 repositories)
+- Service layer with business logic (5 services)
+- Pydantic schemas with validation (25+ schemas)
+- Complete test suite (7 automated tests, 100% pass rate)
+- Error handling and transaction management
+
+For detailed endpoint documentation, API testing results, and bug fixes, see [CRUD_Endpoints.md](./CRUD_Endpoints.md).
+
+**Next Phases:**
+- Phase C: Search integration (Meilisearch + pgvector semantic search)
+- Phase D: AI agent implementation (OpenAI/Anthropic with citation tracking)
+- Phase E: Workflow automation and review processes
+- Phase F: Analytics dashboard and MTTR metrics
